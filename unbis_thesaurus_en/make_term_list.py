@@ -14,7 +14,7 @@ english_terms = {}
 # Extract "label_en" and "alt_labels_en" from each node
 for node in data.get("nodes", []):
     # Get "label_en" if it exists
-    if "label_en" in node:
+    if "label_en" in node and len(node["key"]) >= 6:
         english_terms[node["key"]] = node["label_en"]
 
 # Create a DataFrame and save it to a CSV file
