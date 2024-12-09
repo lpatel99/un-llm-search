@@ -1,0 +1,5 @@
+farm-haystack transformers ollama
+torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+sentence-transformers
+"farm-haystack[inference]"
+
