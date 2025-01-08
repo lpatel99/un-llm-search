@@ -1,6 +1,14 @@
 import json
 import pandas as pd
 
+ID = "id"
+ENGLISH = "en"
+ARABIC = "ar"
+SPANISH = "es"
+FRENCH = "fr"
+RUSSIAN = "ru"
+CHINESE = "zh"
+
 # Path to the JSON file
 file_path = "un_dataset.json"
 
@@ -8,18 +16,30 @@ file_path = "un_dataset.json"
 with open(file_path, "r", encoding="utf-8") as file:
     data = json.load(file)
 
-# List to store the English terms
-english_terms = {}
+# List to store the terms for each language
+terms = {
+    ID: [],
+    ENGLISH: [],
+    ARABIC: [],
+    SPANISH: [],
+    FRENCH: [],
+    RUSSIAN: [],
+    CHINESE: []
+}
 
-# Extract "label_en" and "alt_labels_en" from each node
 for node in data.get("nodes", []):
-    # Get "label_en" if it exists
-    if "label_en" in node and len(node["key"]) >= 6:
-        english_terms[node["key"]] = node["label_en"]
+    if len(node["key"]) >= 6:
+        terms[ID].append(node["key"])
+        terms[ENGLISH].append(node.get("label_en", ""))
+        terms[ARABIC].append(node.get("label_ar", ""))
+        terms[SPANISH].append(node.get("label_es", ""))
+        terms[FRENCH].append(node.get("label_fr", ""))
+        terms[RUSSIAN].append(node.get("label_ru", ""))
+        terms[CHINESE].append(node.get("label_zh", ""))
 
 # Create a DataFrame and save it to a CSV file
-df = pd.DataFrame(list(english_terms.items()), columns=["key", "term"])
-df.to_csv("english_terms.csv", index=False)
+df = pd.DataFrame(terms)
+df.to_csv("multilingual_terms.csv", index=False)
 
 # Print a message
-print("English terms have been extracted and saved to 'english_terms.csv'.")
+print("Terms for all languages have been extracted and saved to 'multilingual_terms.csv'.")
